@@ -1,0 +1,6 @@
+{
+  "1-chase": { "shot": "chase", "seed": 1 },
+  "2-start": { "shot": "start", "seed": 1 },
+  "3-foot": { "shot": "foot", "seed": 1 },
+  "4-coast": { "shot": "coast", "seed": 1 }
+}
