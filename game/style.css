@@ -1,0 +1,197 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+
+body { background: #000; overflow: hidden; width: 100vw; height: 100vh; }
+
+#game-canvas { display: block; width: 100vw; height: 100vh; }
+
+#hud-container {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    color: #FFF;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+#minimap-container {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 200px; height: 200px;
+    border: 2px solid #333;
+    background: #1a1a1a;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#minimap-canvas { display: block; }
+
+#top-left { position: absolute; top: 10px; left: 10px; }
+#wanted-stars { display: flex; gap: 2px; margin-bottom: 8px; }
+#wanted-stars .star { font-size: 20px; text-shadow: 0 0 4px #000; }
+
+#mission-panel { background: rgba(0,0,0,0.7); padding: 10px; border-radius: 4px; border-left: 3px solid #FFFF00; min-width: 250px; }
+#mission-title { font-weight: bold; color: #FFFF00; font-size: 13px; margin-bottom: 4px; }
+#mission-objective { color: #FFF; font-size: 12px; margin-bottom: 4px; }
+#mission-stage { color: #AAA; font-size: 11px; margin-bottom: 4px; }
+#mission-next { color: #88FF88; font-size: 11px; margin-bottom: 4px; }
+#mission-timer { color: #FF4444; font-size: 14px; font-weight: bold; display: none; }
+
+#top-center { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); text-align: center; }
+#clock { font-size: 24px; font-weight: bold; text-shadow: 0 0 8px #000; }
+#location { font-size: 12px; color: #CCC; text-shadow: 0 0 4px #000; }
+
+#top-right { position: absolute; top: 10px; right: 10px; text-align: right; }
+#radio { background: rgba(0,0,0,0.7); padding: 6px 12px; border-radius: 4px; font-size: 11px; color: #00FF88; }
+
+#bottom-left { position: absolute; bottom: 10px; left: 10px; }
+#health-armour { margin-bottom: 8px; }
+.bar-container { width: 200px; height: 12px; background: #333; border-radius: 6px; overflow: hidden; margin-bottom: 4px; border: 1px solid #555; }
+.bar { height: 100%; transition: width 0.3s; }
+.bar.health { background: linear-gradient(90deg, #CC0000, #FF4444); }
+.bar.armour { background: linear-gradient(90deg, #0066CC, #00AAFF); }
+.bar.condition { background: linear-gradient(90deg, #00AA00, #FFAA00, #CC0000); }
+
+#money-rep { font-size: 13px; }
+#money { color: #00FF88; font-weight: bold; }
+#rep { color: #FFAA00; font-family: monospace; }
+
+#bottom-right { position: absolute; bottom: 10px; right: 10px; text-align: right; }
+#weapon-ammo { background: rgba(0,0,0,0.7); padding: 8px 12px; border-radius: 4px; margin-bottom: 8px; }
+#weapon-name { font-weight: bold; font-size: 14px; }
+#ammo-count { font-family: monospace; font-size: 12px; color: #CCC; }
+
+#speedometer { background: rgba(0,0,0,0.8); padding: 12px; border-radius: 4px; border: 2px solid #333; min-width: 150px; }
+#speed { font-size: 36px; font-weight: bold; font-family: monospace; color: #00FF88; }
+#gear { font-size: 18px; color: #FFAA00; }
+#vehicle-name { font-size: 11px; color: #888; text-transform: uppercase; }
+
+#crosshair { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+.crosshair-gap {
+    width: 24px; height: 24px;
+    border: 2px solid #FFF;
+    border-radius: 50%;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    box-shadow: 0 0 4px #000;
+}
+
+#dialogue-box {
+    position: absolute;
+    bottom: 120px; left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    background: rgba(0,0,0,0.9);
+    padding: 12px 16px;
+    border-radius: 4px;
+    border: 2px solid #333;
+    max-width: 600px;
+    pointer-events: none;
+}
+#dialogue-portrait { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #333; flex-shrink: 0; }
+#dialogue-name { font-weight: bold; color: #FFFF00; margin-bottom: 4px; }
+#dialogue-text { color: #FFF; line-height: 1.5; }
+
+#notifications {
+    position: absolute;
+    top: 230px; right: 10px;
+    max-width: 300px;
+}
+.notification {
+    background: rgba(0,0,0,0.8);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    border-left: 3px solid #FFFF00;
+    animation: slideIn 0.3s ease-out;
+}
+@keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+#interaction-prompt {
+    position: absolute;
+    bottom: 80px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 2px solid #FFFF00;
+    font-weight: bold;
+    color: #FFFF00;
+    pointer-events: none;
+}
+
+#menu-container {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    flex-direction: column;
+}
+
+.menu-screen { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%; max-width: 600px; padding: 40px; }
+
+#start-screen { position: relative; }
+#start-background { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%); z-index: -1; }
+#start-content { text-align: center; z-index: 1; }
+#logo { font-size: 64px; font-weight: 900; color: #FFD700; text-shadow: 0 0 30px #FFD700, 0 0 60px #FF8800; letter-spacing: 8px; margin-bottom: 8px; }
+#tagline { color: #AAA; font-size: 16px; margin-bottom: 32px; font-style: italic; }
+
+.menu-btn {
+    background: linear-gradient(135deg, #2a2a4a 0%, #1a1a3a 100%);
+    border: 2px solid #444;
+    color: #FFF;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    width: 100%;
+    max-width: 300px;
+}
+.menu-btn:hover { border-color: #FFD700; background: linear-gradient(135deg, #3a3a5a 0%, #2a2a4a 100%); box-shadow: 0 0 20px rgba(255,215,0,0.2); }
+.menu-btn:active { transform: scale(0.98); }
+
+#character-roster { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+.character { background: rgba(255,255,255,0.05); padding: 12px 20px; border-radius: 4px; border: 1px solid #333; text-align: center; min-width: 140px; }
+.character .name { display: block; font-weight: bold; color: #FFD700; font-size: 13px; }
+.character .role { display: block; color: #888; font-size: 11px; margin-top: 4px; }
+
+.panel-header { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; margin-bottom: 24px; }
+.panel-header h2 { color: #FFD700; font-size: 24px; }
+.close-btn { background: none; border: none; color: #888; font-size: 28px; cursor: pointer; width: 40px; height: 40px; }
+.close-btn:hover { color: #FFF; }
+
+.controls-list { width: 100%; max-width: 500px; }
+.control-section { margin-bottom: 24px; }
+.control-section h3 { color: #FFD700; font-size: 16px; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+.control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 14px; }
+.control-row kbd { background: #2a2a2a; border: 1px solid #444; padding: 4px 8px; border-radius: 3px; font-family: monospace; font-size: 12px; color: #FFD700; min-width: 40px; text-align: center; }
+.control-row span { color: #CCC; flex: 1; }
+
+#pause-buttons { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 300px; }
+
+.save-slot { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid #333; border-radius: 4px; margin-bottom: 8px; }
+.save-info { display: flex; flex-direction: column; gap: 4px; }
+.save-mission { color: #FFD700; font-weight: bold; }
+.save-money { color: #00FF88; }
+.save-time { color: #888; font-size: 12px; }
+.empty-slot { color: #666; font-style: italic; }
+
+.settings-list { width: 100%; max-width: 400px; }
+.setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.setting-row label { color: #CCC; font-size: 14px; }
+.setting-row input[type="range"] { width: 200px; accent-color: #FFD700; }
+
+@media (max-width: 768px) {
+    #hud-container { font-size: 12px; }
+    #minimap-container { width: 150px; height: 150px; }
+    #logo { font-size: 40px; }
+    .bar-container { width: 150px; }
+}
